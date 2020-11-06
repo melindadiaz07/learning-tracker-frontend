@@ -1,25 +1,31 @@
 import logo from './logo.svg';
 import './App.css';
+import Login from './Login'
+import UserCourseList from './UserCourseList'
+import ExistingCourseList from './ExistingCourseList'
+import TaskList from './TaskList'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+// render either login, UserCourseList, or 
+// ExistingCourseList depending on some state
+
+ 
+
+export default class App extends Component {
+
+  state = {  
+    user: "",
+    userCourses: [],
+    existingCourses: [],
+    taskList: []
+  }
+
+  render() {
+    return (
+      <div>
+        
+      </div>
+    );
+  }
 }
 
 export default App;
