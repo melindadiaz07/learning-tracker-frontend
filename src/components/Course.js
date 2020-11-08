@@ -6,7 +6,7 @@ export default class Course extends Component {
     return (
       <div>
         <h2>My Course</h2>
-        <h3>jsx to display each course passed down as a prop </h3> 
+        <h3>{this.props.course.subject} </h3> 
       </div>
     );
   }

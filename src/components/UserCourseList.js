@@ -11,11 +11,15 @@ export default class UserCourseList extends Component {
   render() {
     return (
       <div>
-        <h1>Welcome to User Course List</h1>
-        <Course />
+        
+       
         <AddCourse />
         
       </div>
     );
   }
 }
+
+// {this.props.courses.map(course => {
+//   return  <Course course={course} />
+// })}

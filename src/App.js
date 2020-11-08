@@ -17,12 +17,25 @@ import { BrowserRouter as Router, Switch, Route} from 'react-router-dom'
 
 class App extends Component {
 
-  // state = {  
-  //   user: "",
-  //   userCourses: [],
-  //   existingCourses: [],
-  //   taskList: []
-  // }
+  state = {  
+    user: "",
+    userCourses: [],
+    existingCourses: [],
+    taskList: []
+  }
+
+  componentDidMount() {
+    fetch("http://localhost:3000/users/2")
+      .then(resp => resp.json())
+      .then(userData => {
+       // console.log(userData.courses)
+        
+        this.setState({
+          userCourses: userData.courses
+        })
+      })
+
+  }
 
   render() {
     return (
@@ -31,7 +44,7 @@ class App extends Component {
           <Switch>
           
       <Route path="/login" component={Login} />
-        <Route path="/user" component={UserCourseList} />
+        <Route path="/mycourses" component={UserCourseList} courses={this.state.userCourses} />
         <Route path="/taskList" component={TaskList} />
         <Route path ="/existing" component={ExistingCourseList} />
 
