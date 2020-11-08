@@ -28,10 +28,8 @@ class App extends Component {
     fetch("http://localhost:3000/users/2")
       .then(resp => resp.json())
       .then(userData => {
-       // console.log(userData.courses)
-        
         this.setState({
-          userCourses: userData.courses
+          userCourses: [...this.state.userCourses, userData.courses]
         })
       })
 
@@ -44,7 +42,13 @@ class App extends Component {
           <Switch>
           
       <Route path="/login" component={Login} />
-        <Route path="/mycourses" component={UserCourseList} courses={this.state.userCourses} />
+      <Route  path="/mycourses" render={() => {
+              return <div>
+               <UserCourseList
+                 courses={this.state.userCourses}
+              /></div> 
+            }}
+          />
         <Route path="/taskList" component={TaskList} />
         <Route path ="/existing" component={ExistingCourseList} />
 

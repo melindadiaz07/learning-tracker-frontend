@@ -6,7 +6,8 @@ export default class Course extends Component {
     return (
       <div>
         <h2>My Course</h2>
-        <h3>{this.props.course.subject} </h3> 
+        {console.log(this.props)}
+        <h3>{this.props.course[0].subject}</h3> 
       </div>
     );
   }
