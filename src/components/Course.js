@@ -5,7 +5,8 @@ export default class Course extends Component {
   render() {
     return (
       <div>
-        {/* jsx to display each course passed down as a prop */}
+        <h2>My Course</h2>
+        <h3>jsx to display each course passed down as a prop </h3> 
       </div>
     );
   }

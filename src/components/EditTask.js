@@ -5,6 +5,7 @@ export default class EditTask extends Component {
   render() {
     return (
       <div>
+        <h2>EditTask</h2>
         
       </div>
     );
