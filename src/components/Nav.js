@@ -1,14 +1,22 @@
-// import React, { Component } from 'react'
-// import './components/App.css'
+import React, { Component } from 'react'
+import { NavLink } from 'react-router-dom'
+// import '/App.css'
 
-// export default class Nav extends Component {
-//   state = {  }
-//   render() {
-//     return (
-//       <nav>
-//         <h2> About</h2>
+export default class Nav extends Component {
+
+  state = { 
+
+   }
+   
+  render() {
+    return (
+      <nav className="nav">
+        
+        <NavLink to='/mycourses' >My Courses</NavLink>
+        <NavLink to='/existing' >View Existing Courses</NavLink>
+        <NavLink to='/logout' >logout</NavLink>
          
-//       </nav>
-//     );
-//   }
-// }
+      </nav>
+    );
+  }
+}

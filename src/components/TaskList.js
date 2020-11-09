@@ -6,8 +6,9 @@ export default class TaskList extends Component {
   render() {
     return (
       <div>
-       <h1> Welcome to my Task list</h1>
-        <Task />
+       {this.props.tasks.map(taskData => {
+         return <Task task={taskData} />
+       })}
       </div>
     );
   }

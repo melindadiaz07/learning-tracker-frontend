@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 //import logo from './logo.svg';
 import './App.css'
-//import Nav from './components/Nav'
+import Nav from './components/Nav'
 import Login from './components/Login'
 import UserCourseList from './components/UserCourseList'
 import ExistingCourseList from './components/ExistingCourseList'
@@ -21,36 +21,55 @@ class App extends Component {
     user: "",
     userCourses: [],
     existingCourses: [],
-    taskList: []
+    taskList: [],
+    selectedCourse: ""
   }
 
   componentDidMount() {
-    fetch("http://localhost:3000/users/2")
+    fetch("http://localhost:3000/users/9")
       .then(resp => resp.json())
       .then(userData => {
         this.setState({
-          userCourses: [...this.state.userCourses, userData.courses]
+          userCourses: userData.courses
         })
       })
-
   }
+
+  selectCourse = (course) => {
+    this.setState({
+      selectedCourse: course,
+      taskList: course.task_list.tasks
+    })
+    
+  }
+
+  
+  
 
   render() {
     return (
+
+    
+      
       <Router>
+        <Nav />
         <div>
           <Switch>
           
-      <Route path="/login" component={Login} />
-      <Route  path="/mycourses" render={() => {
-              return <div>
-               <UserCourseList
-                 courses={this.state.userCourses}
-              /></div> 
+      <Route exact path="/login" component={Login} />
+      <Route  exact path="/mycourses" render={() => {
+            return <div>
+               <UserCourseList courses={this.state.userCourses} 
+                                selectCourse={this.selectCourse} />
+              </div> 
             }}
           />
-        <Route path="/taskList" component={TaskList} />
-        <Route path ="/existing" component={ExistingCourseList} />
+        <Route exact path="/taskList" render={() => {
+          return <div>
+            <TaskList currentCourse={this.state.currentCourse} tasks={this.state.taskList} />
+          </div>
+        }} />
+        <Route exact path ="/existing" component={ExistingCourseList} />
 
 
             <h1>Application Page</h1>
@@ -60,6 +79,7 @@ class App extends Component {
           
         
         </Router>
+    
     );
   }
 }

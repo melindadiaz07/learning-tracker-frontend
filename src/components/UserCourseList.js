@@ -12,7 +12,7 @@ export default class UserCourseList extends Component {
     return (
       <div>
         {this.props.courses.map(courseData => {
-          return <Course course={courseData} />
+          return <Course course={courseData} key={courseData.id} selectCourse={this.props.selectCourse}/>
         })}
         <AddCourse />
         
