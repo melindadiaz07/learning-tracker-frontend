@@ -56,6 +56,17 @@ class App extends Component {
     })
   }
 
+  findProgress() {
+    let totalTasks = this.props.course.task_list.tasks.length
+    let completed = 0
+    this.props.course.task_list.tasks.forEach(task => {
+      if (task[0] == "true"){
+        completed+=1
+      }
+    })
+    return parseInt(Number((completed/totalTasks)*100))+'%'
+  }
+
   
 
   render() {
