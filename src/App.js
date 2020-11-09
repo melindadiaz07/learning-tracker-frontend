@@ -26,7 +26,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    fetch("http://localhost:3000/users/9")
+    fetch("http://localhost:3000/users/10")
       .then(resp => resp.json())
       .then(userData => {
         this.setState({
@@ -43,7 +43,19 @@ class App extends Component {
     
   }
 
-  
+  checkOff = (task) => {
+  task[0] = "true"
+   let updateIndex = this.state.taskList.findIndex((taskData) => taskData === task)
+  this.state.taskList[updateIndex] = task
+   let taskListId = this.state.selectedCourse.task_list.id
+   let newList = [...this.state.taskList]
+  fetch(`http://localhost:3000/task_lists/${taskListId}`, {
+    method: 'PATCH',
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({tasks: newList})
+    })
+  }
+
   
 
   render() {
@@ -66,7 +78,7 @@ class App extends Component {
           />
         <Route exact path="/taskList" render={() => {
           return <div>
-            <TaskList currentCourse={this.state.currentCourse} tasks={this.state.taskList} />
+            <TaskList currentCourse={this.state.currentCourse} tasks={this.state.taskList} checkOff={this.checkOff}/>
           </div>
         }} />
         <Route exact path ="/existing" component={ExistingCourseList} />

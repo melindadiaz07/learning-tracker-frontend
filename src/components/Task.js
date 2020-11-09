@@ -19,11 +19,11 @@ import EditTask from './EditTask'
       this.state.checked === "false" ?
        (
        <div><h3>Task</h3>
-         <input type="checkbox" value="task" />
+         <input type="checkbox" value="task" onClick={() => this.props.checkOff(this.props.task)} />
         <label>{description}</label>
         </div>) :
         (<div><h3>Task</h3>
-        <input type="checkbox" value="task" checked/>
+        <input type="checkbox" value="task" checked />
        <label>{description}</label>
        </div>)
       }
