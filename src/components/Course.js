@@ -12,8 +12,10 @@ export default class Course extends Component {
     let completed = 0
     this.props.course.task_list.tasks.forEach(task => {
       if (task[0] == "true"){
-        completed+=1
+        completed += 1
+      
       }
+      console.log(completed)
     })
        return parseInt(Number((completed/totalTasks)*100))+'%'
   }

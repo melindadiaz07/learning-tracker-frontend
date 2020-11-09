@@ -17,23 +17,40 @@ import { BrowserRouter as Router, Switch, Route} from 'react-router-dom'
 
 class App extends Component {
 
-  state = {  
+  state = {
     user: "",
     userCourses: [],
     existingCourses: [],
     taskList: [],
-    selectedCourse: ""
+    selectedCourse: "",
+    currentUser: {}
   }
 
-  componentDidMount() {
-    fetch("http://localhost:3000/users/10")
-      .then(resp => resp.json())
-      .then(userData => {
-        this.setState({
-          userCourses: userData.courses
-        })
-      })
-  }
+
+  handleLogin = userJson => {
+    const currentUser = userJson;
+    localStorage.setItem('token', currentUser.jwt);
+    this.setState({ currentUser: currentUser });
+  };
+
+  handleLogout = () => {
+    localStorage.removeItem('token');
+    this.setState({ currentUser: {} })
+  };
+
+  
+
+
+
+  // componentDidMount() {
+  // fetch("http://localhost:3000/users/3")
+  //   .then(resp => resp.json())
+  //   .then(userData => {
+  //     this.setState({
+  //       userCourses: userData.courses
+  //     })
+  //   })
+  // }
 
   selectCourse = (course) => {
     this.setState({
@@ -56,6 +73,9 @@ class App extends Component {
     })
   }
 
+
+
+  
   
 
   render() {
@@ -68,7 +88,15 @@ class App extends Component {
         <div>
           <Switch>
           
-      <Route exact path="/login" component={Login} />
+            <Route exact path="/login"
+      
+            render={routerProps => {
+              return (
+                <Login {...routerProps} handleLogin={this.handleLogin} />
+              );
+            }}
+      
+            />
       <Route  exact path="/mycourses" render={() => {
             return <div>
                <UserCourseList courses={this.state.userCourses} 

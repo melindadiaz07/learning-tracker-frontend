@@ -10,13 +10,13 @@ export default class UserCourseList extends Component {
   state = {  }
   render() {
     return (
-      <div>
-        {this.props.courses.map(courseData => {
-          return <Course course={courseData} key={courseData.id} selectCourse={this.props.selectCourse}/>
-        })}
-        <AddCourse />
+       <div>
+       {this.props.courses.map(courseData => {
+            return <Course course={courseData} key={courseData.id} selectCourse={this.props.selectCourse}/>
+          })}
+          <AddCourse />
         
-      </div>
+       </div>
     );
   }
 }
