@@ -6,7 +6,18 @@ import EditTask from './EditTask'
   
 
   state = { 
-    checked: this.props.task[0]
+    checked: this.props.task[0],
+    resourceClicked: false
+   }
+
+   showResources = (event) => {
+     event.preventDefault()
+    this.setState({
+      resourceClicked: !this.state.resourceClicked
+    })
+    event.target.innerHTML === 'v' ?
+    event.target.innerHTML = '^' :
+    event.target.innerHTML = 'v'
    }
 
   render() {
@@ -18,13 +29,19 @@ import EditTask from './EditTask'
     {
       this.state.checked === "false" ?
        (
-       <div><h3>Task</h3>
-         <input type="checkbox" value="task" onClick={() => this.props.checkOff(this.props.task)} />
-        <label>{description}</label>
+       <div className="task-item">
+          <input className="checkbox" type="checkbox" value="task" onClick={() => this.props.checkOff(this.props.task)} />
+          <label>{description}<button className="resource-button" onClick={this.showResources}>v</button></label>
+            {this.state.resourceClicked === true ?
+            <p><a href={resources} target="_blank">{resources}</a></p> :
+            null }
         </div>) :
-        (<div><h3>Task</h3>
-        <input type="checkbox" value="task" checked />
-       <label>{description}</label>
+        (<div className="task-item">
+          <input className="checkbox" type="checkbox" value="task" checked />
+          <label>{description}<button className="resource-button" onClick={this.showResources}>v</button></label>
+            {this.state.resourceClicked === true ?
+            <p><a href={resources} target="_blank">{resources}</a></p> :
+            null }
        </div>)
       }
        </div>

@@ -42,10 +42,29 @@
 }
 
 .nav {
-  display:flex;
-  justify-content: space-around;
+  /* display: flex; */
   align-items: center;
   min-height:10vh;
-  background: lightblue;
-  color: white
+  background: rgb(216, 213, 213);
+  color: white;
+}
+
+.nav-button{
+  margin-top: 10px;
+  margin-right: 10px;
+ float: right;
+}
+
+
+.resource-button {
+  margin-left: 12px;
+}
+
+.task-item {
+  padding: 15px;
+}
+
+
+.checkbox{
+  margin-right: 15px;
 }
