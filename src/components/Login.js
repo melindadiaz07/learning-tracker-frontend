@@ -50,7 +50,7 @@ class Login extends React.Component {
     const { fields } = this.state;
     return (
       <div>
-        {this.state.error ? <h1>Try Again</h1> : null}
+        {this.state.error ? <h3>Not a valid username/password</h3> : null}
         <div className="ui form">
           <form onSubmit={this.handleSubmit}>
             <div className="ui field">

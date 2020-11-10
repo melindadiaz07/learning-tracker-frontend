@@ -1,8 +1,16 @@
 import React, { Component } from 'react';
 import Task from './Task'
+import { CircularProgressbar } from 'react-circular-progressbar';
+
 
 export default class TaskList extends Component {
-  state = {  }
+  state = { 
+    progress: ""
+   }
+
+  updateProgress = () => {
+    this.setState({progress: this.findProgress()})
+  }
 
   findProgress(){
     let totalTasks = this.props.tasks.length
@@ -12,19 +20,22 @@ export default class TaskList extends Component {
         completed+=1
       }
     })
-       return parseInt(Number((completed/totalTasks)*100))+'%'
+       return parseInt(Number((completed/totalTasks)*100))
   }
 
 
   render() {
     return (
-      <div>
-        <h2>{this.props.selectedCourse.subject}</h2>
-        <h3>{this.findProgress()} Complete</h3>
-
+      <div className="task-list-container">
+        <div className="progress-container">
+        <h3 className="tasklist-progress"><CircularProgressbar value={this.findProgress()} text={`${this.findProgress()}%`} /></h3>
+        </div>
+        <h2 className="tasks-subject-header">{this.props.selectedCourse.subject}</h2>
+        <div className="task-container">
        {this.props.tasks.map(taskData => {
-         return <Task task={taskData} checkOff={this.props.checkOff} />
+         return <Task task={taskData} checkOff={this.props.checkOff} updateProgress={this.updateProgress}/>
        })}
+       </div>
       </div>
     );
   }

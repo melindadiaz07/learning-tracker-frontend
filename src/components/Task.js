@@ -30,17 +30,20 @@ import EditTask from './EditTask'
       this.state.checked === "false" ?
        (
        <div className="task-item">
-          <input className="checkbox" type="checkbox" value="task" onClick={() => this.props.checkOff(this.props.task)} />
+          <input className="checkbox" type="checkbox" value="task" onClick={() => {
+            this.props.checkOff(this.props.task)
+            this.props.updateProgress()
+          }} />
           <label>{description}<button className="resource-button" onClick={this.showResources}>v</button></label>
             {this.state.resourceClicked === true ?
-            <p><a href={resources} target="_blank">{resources}</a></p> :
+            <p className="resources-tab"><a href={resources} target="_blank">{resources}</a></p> :
             null }
         </div>) :
         (<div className="task-item">
           <input className="checkbox" type="checkbox" value="task" checked />
           <label>{description}<button className="resource-button" onClick={this.showResources}>v</button></label>
             {this.state.resourceClicked === true ?
-            <p><a href={resources} target="_blank">{resources}</a></p> :
+            <p className="resources-tab"><a href={resources} target="_blank">{resources}</a></p> :
             null }
        </div>)
       }

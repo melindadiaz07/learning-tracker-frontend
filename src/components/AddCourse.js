@@ -5,7 +5,7 @@ export default class AddCourse extends Component {
   render() {
     return (
       <div>
-        <h2>Add course here</h2>
+        <h4><button className="add-course-button" >Add a Course</button></h4>
         
       </div>
     );

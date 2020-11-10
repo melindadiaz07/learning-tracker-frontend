@@ -39,18 +39,15 @@ class App extends Component {
   };
 
   
-
-
-
-  // componentDidMount() {
-  // fetch("http://localhost:3000/users/3")
-  //   .then(resp => resp.json())
-  //   .then(userData => {
-  //     this.setState({
-  //       userCourses: userData.courses
-  //     })
-  //   })
-  // }
+  componentDidMount() {
+  fetch("http://localhost:3000/users/13")
+    .then(resp => resp.json())
+    .then(userData => {
+      this.setState({
+        userCourses: userData.courses
+      })
+    })
+  }
 
   selectCourse = (course) => {
     this.setState({
@@ -74,15 +71,9 @@ class App extends Component {
   }
 
 
-
-  
-  
-
   render() {
     return (
 
-    
-      
       <Router>
         <Nav />
         <div>
