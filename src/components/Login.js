@@ -8,12 +8,38 @@ class Login extends React.Component {
     username: "",
     password: ""
   };
+
  
   handleChange = (e, { name, value }) => {
     this.setState({ [name]: value });
   };
 
-  handleLoginSubmit = async () => {
+  handleSignupSubmit = async () => {
+    const { username, password } = this.state 
+    const credentials = {username, password}
+    
+    const reqPackage = {}
+      reqPackage.headers = {"Content-Type": "application/json"}
+      reqPackage.method = "POST"
+      reqPackage.body = JSON.stringify(credentials)
+
+    const res = await fetch(`http://localhost:3000/api/v1/signup`, reqPackage)
+    const data = await res.json()
+    
+    if(data.authenticated) {
+      
+      
+      localStorage.setItem("token", data.token)
+
+      this.props.getCurrentUser(data.user)
+    } else {
+      console.log(data);
+    }
+
+  }
+
+  handleLoginSubmit = async (e) => {
+    console.log(e.target.value)
     const {username, password} = this.state 
 
     const credentials = {username, password}
@@ -27,7 +53,7 @@ class Login extends React.Component {
     const data = await res.json()
     
     if(data.authenticated) {
-      console.log(data)
+      
       
       localStorage.setItem("token", data.token)
 
@@ -41,7 +67,7 @@ class Login extends React.Component {
     return (
       <Segment>
         <Form
-          onSubmit={this.handleLoginSubmit}
+          
           size="mini"
           key="mini"
           loading={this.props.authenticatingUser}
@@ -69,7 +95,8 @@ class Login extends React.Component {
               value={this.state.password}
             />
           </Form.Group>
-          <Button type="submit">Login</Button>
+          <Button onClick={this.handleLoginSubmit} value="login"type="submit">Login</Button>
+          <Button onClick={this.handleSignupSubmit} value="signup" type="submit">Signup </Button>
         </Form>
       </Segment>
     );
