@@ -11,6 +11,10 @@ import React, { Component } from 'react';
        clicked: !this.state.clicked
      })
    }
+
+   updateButton = () => {
+     
+   }
    
 
   render() {
@@ -19,11 +23,17 @@ import React, { Component } from 'react';
         {
            this.state.clicked === false ? 
            (<div className="template-container">
-             <h3 className="template-subject"> <button className="template-drop-button" onClick={this.handleClick} > v </button>{this.props.courseData.subject}<button className="import-course-button" >Add to my Course list</button></h3>
+             <h3 className="template-subject"> <button className="template-drop-button" 
+                  onClick={this.handleClick} > v </button>{this.props.courseData.subject}
+                  <button onClick={() => this.props.importCourse(this.props.courseData)} 
+                          className="import-course-button" >Add to my Course list</button></h3>
              </div>
             ) :
            ( <div className="template-container">
-            <h3 className="template-subject"><button className="template-drop-button" onClick={this.handleClick} > ^ </button>{this.props.courseData.subject} <button className="import-course-button">Add to my Course list</button></h3>
+            <h3 className="template-subject"><button className="template-drop-button" 
+            onClick={this.handleClick} > ^ </button>{this.props.courseData.subject} 
+            <button onClick={() => this.props.importCourse(this.props.courseData)} 
+                      className="import-course-button">Add to my Course list</button></h3>
             <ul className="template-tasks-ul">
               {this.props.courseData.template_task.tasks.map(task => {
                 return <li>

@@ -12,7 +12,7 @@ import ExistingCourse from './ExistingCourse'
         <h1> Courses </h1>
         {
           this.props.courses.map(course => {
-            return <ExistingCourse courseData={course} />
+            return <ExistingCourse courseData={course} importCourse={this.props.importCourse}/>
           })
         }
 

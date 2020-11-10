@@ -5,22 +5,19 @@ import { CircularProgressbar } from 'react-circular-progressbar';
 
 export default class Course extends Component {
 
-  // state ={
-  //   progress: ""
-  // }
  
   findProgress(){
+    if (this.props.course.task_list) {
     let totalTasks = this.props.course.task_list.tasks.length
     let completed = 0
     this.props.course.task_list.tasks.forEach(task => {
       if (task[0] == "true"){
         completed += 1
-      
       }
-      console.log(completed)
     })
        return parseInt(Number((completed/totalTasks)*100))
   }
+}
 
 
   render() {

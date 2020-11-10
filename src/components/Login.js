@@ -32,7 +32,7 @@ class Login extends React.Component {
       localStorage.setItem("token", data.token)
 
       this.props.getCurrentUser(data.user)
-    } else {
+    } else { 
       console.log(data);
     }
 

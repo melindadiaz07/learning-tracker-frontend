@@ -18,7 +18,7 @@ class App extends React.Component {
     taskList: [],
     selectedCourse: "",
     currentUser: null,
-    loading: true
+    loading: true,
   }
 
 
@@ -26,6 +26,7 @@ class App extends React.Component {
   getCurrentUser = currentUser => this.setState({currentUser})
 
   async componentDidMount(){
+
     if(localStorage.getItem("token")){
       const headers = {headers: {"Authentication": `Bearer ${localStorage.getItem("token")}`}}
       const res = await fetch('http://localhost:3000/api/v1/mycourses', headers)
@@ -36,9 +37,7 @@ class App extends React.Component {
         userCourses:currentUser.courses
       })
       
-      console.log(currentUser.courses)
     }else {
-      console.log("no tokey");
       this.setState({loading: false})
     }
 
@@ -49,6 +48,7 @@ class App extends React.Component {
         existingCourses: templateData
       })
     })
+   
   }
 
   selectCourse = (course) => {
@@ -71,7 +71,45 @@ class App extends React.Component {
     })
   }
 
+  addCourse = (subject) => {
+    fetch("http://localhost:3000/courses", {
+      method: "POST",
+      headers:  {"Content-Type": "application/json"},
+      body: JSON.stringify({subject: subject,
+                            user_id: this.state.currentUser.id,
+                            tasks: ['false', "Add your first task!", "A resource link can go here..."]
+                          })
+    })
+    .then(res => res.json())
+    .then(courseData => {
+      
+      this.setState({
+        userCourses: [...this.state.userCourses, courseData]
+      })
+    })
+  }
 
+  importCourse = (course) => {
+
+   if (!this.state.userCourses.find(userCourse => userCourse === course)){
+    fetch("http://localhost:3000/courses", {
+      method: "POST",
+      headers:  {"Content-Type": "application/json"},
+      body: JSON.stringify({subject: course.subject,
+                            user_id: this.state.currentUser.id,
+                            tasks: course.template_task.tasks
+                          })
+    })
+    .then(res => res.json())
+    .then(courseData => {
+      this.setState({
+        userCourses: [...this.state.userCourses, courseData]
+      })
+    })
+  }
+  }
+
+  
   render(){
     return (
       <Fragment>
@@ -82,7 +120,7 @@ class App extends React.Component {
           
           <Route exact path="/mycourses" render={() => {
            return !this.state.currentUser ? <Redirect to="/login" /> : <UserCourseList courses={this.state.userCourses} 
-           selectCourse={this.selectCourse}/>
+           selectCourse={this.selectCourse} addCourse={this.addCourse} />
          }} />
          
           <Route exact path="/login" render={()=> {
@@ -98,7 +136,7 @@ class App extends React.Component {
           <Route exact path ="/availableCourses" render={() => {
             return !this.state.currentUser ? <Redirect to="/login" /> :
             <div>
-               <ExistingCourseList courses={this.state.existingCourses} />
+               <ExistingCourseList courses={this.state.existingCourses} importCourse={this.importCourse}/>
               </div> 
             }} /> 
           

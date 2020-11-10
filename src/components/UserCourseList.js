@@ -15,9 +15,9 @@ export default class UserCourseList extends Component {
        {this.props.courses.map(courseData => {
             return <Course course={courseData} key={courseData.id} selectCourse={this.props.selectCourse}/>
           })}
-          <AddCourse />
+          <AddCourse addCourse={this.props.addCourse} />
         
        </div>
     );
-  }
+  } 
 }
