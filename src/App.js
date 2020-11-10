@@ -70,6 +70,20 @@ class App extends React.Component {
     body: JSON.stringify({tasks: newList})
     })
   }
+  
+  taskEdit = (e, task, description, resource) => {
+    
+    let updateIndex = this.state.taskList.findIndex((taskData) => taskData === task)
+    task[1] = description
+    task[2] = resource
+  this.state.taskList[updateIndex] = task
+   let taskListId = this.state.selectedCourse.task_list.id
+   let newList = [...this.state.taskList]
+  fetch(`http://localhost:3000/task_lists/${taskListId}`, {
+    method: 'PATCH',
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({tasks: newList})
+    })
 
   addCourse = (subject) => {
     fetch("http://localhost:3000/courses", {
@@ -130,7 +144,7 @@ class App extends React.Component {
           <Route exact path="/taskList" render={() => {
           return !this.state.currentUser ? <Redirect to="/login" /> :
           <div>
-            <TaskList selectedCourse={this.state.selectedCourse} tasks={this.state.taskList} checkOff={this.checkOff}/>
+              <TaskList selectedCourse={this.state.selectedCourse} tasks={this.state.taskList} checkOff={this.checkOff} taskEdit={this.taskEdit}/>
           </div>  }} />  
 
           <Route exact path ="/availableCourses" render={() => {

@@ -33,7 +33,7 @@ export default class TaskList extends Component {
         <h2 className="tasks-subject-header">{this.props.selectedCourse.subject}</h2>
         <div className="task-container">
        {this.props.tasks.map(taskData => {
-         return <Task task={taskData} checkOff={this.props.checkOff} updateProgress={this.updateProgress}/>
+         return <Task task={taskData} checkOff={this.props.checkOff} updateProgress={this.updateProgress} taskEdit={this.props.taskEdit}/>
        })}
        </div>
       </div>
