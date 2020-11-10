@@ -1,21 +1,15 @@
-import React, { Component } from 'react';
-//import logo from './logo.svg';
 import './App.css'
 import Nav from './components/Nav'
 import Login from './components/Login'
 import UserCourseList from './components/UserCourseList'
 import ExistingCourseList from './components/ExistingCourseList'
 import TaskList from './components/TaskList'
-//import Task from './components/Task'
-//import Course from './components/Course';
-import { BrowserRouter as Router, Switch, Route} from 'react-router-dom'
+import React, { Fragment } from 'react'
+import { Route, Switch, Redirect, withRouter } from 'react-router-dom'
 
-// render either login, UserCourseList, or 
-// ExistingCourseList depending on some state
 
- 
 
-class App extends Component {
+class App extends React.Component {
 
   state = {
     user: "",
@@ -23,38 +17,38 @@ class App extends Component {
     existingCourses: [],
     taskList: [],
     selectedCourse: "",
-    currentUser: {}
+    currentUser: null,
+    loading: true
   }
 
 
-  handleLogin = userJson => {
-    const currentUser = userJson;
-    localStorage.setItem('token', currentUser.jwt);
-    this.setState({ currentUser: currentUser });
-  };
 
-  handleLogout = () => {
-    localStorage.removeItem('token');
-    this.setState({ currentUser: {} })
-  };
+  getCurrentUser = currentUser => this.setState({currentUser})
 
-  
-  componentDidMount() {
-  fetch("http://localhost:3000/users/16")
-    .then(resp => resp.json())
-    .then(userData => {
+  async componentDidMount(){
+    if(localStorage.getItem("token")){
+      const headers = {headers: {"Authentication": `Bearer ${localStorage.getItem("token")}`}}
+      const res = await fetch('http://localhost:3000/api/v1/mycourses', headers)
+      const currentUser = await res.json()
       this.setState({
-        userCourses: userData.courses
+        currentUser, 
+        loading: false,
+        userCourses:currentUser.courses
+      })
+      
+      console.log(currentUser.courses)
+    }else {
+      console.log("no tokey");
+      this.setState({loading: false})
+    }
+
+    fetch("http://localhost:3000/templates")
+    .then(res => res.json())
+    .then(templateData => {
+      this.setState({
+        existingCourses: templateData
       })
     })
-  fetch("http://localhost:3000/templates")
-  .then(res => res.json())
-  .then(templateData => {
-    this.setState({
-      existingCourses: templateData
-    })
-  })
-
   }
 
   selectCourse = (course) => {
@@ -62,7 +56,6 @@ class App extends Component {
       selectedCourse: course,
       taskList: course.task_list.tasks
     })
-    
   }
 
   checkOff = (task) => {
@@ -79,50 +72,43 @@ class App extends Component {
   }
 
 
-  render() {
+  render(){
     return (
+      <Fragment>
 
-      <Router>
-        <Nav />
-        <div>
-          <Switch>
+        <Nav logged_in={ !!this.state.currentUser} getCurrentUser={this.getCurrentUser} />
+        { !this.state.loading ? <Switch>
+          <Route exact path="/" render={() => <Redirect to="/login" />} />
           
-            <Route exact path="/login"
-      
-            render={routerProps => {
-              return (
-                <Login {...routerProps} handleLogin={this.handleLogin} />
-              );
-            }}
-      
-            />
-      <Route  exact path="/mycourses" render={() => {
-            return <div>
-               <UserCourseList courses={this.state.userCourses} 
-                                selectCourse={this.selectCourse} />
-              </div> 
-            }}
-          />
-        <Route exact path="/taskList" render={() => {
-          return <div>
+          <Route exact path="/mycourses" render={() => {
+           return !this.state.currentUser ? <Redirect to="/login" /> : <UserCourseList courses={this.state.userCourses} 
+           selectCourse={this.selectCourse}/>
+         }} />
+         
+          <Route exact path="/login" render={()=> {
+           return !this.state.currentUser ? <Login getCurrentUser={this.getCurrentUser} /> : <Redirect to='/mycourses'/>
+         }} />
+
+          <Route exact path="/taskList" render={() => {
+          return !this.state.currentUser ? <Redirect to="/login" /> :
+          <div>
             <TaskList selectedCourse={this.state.selectedCourse} tasks={this.state.taskList} checkOff={this.checkOff}/>
-          </div>
-        }} />
-        <Route exact path ="/availableCourses" render={() => {
-            return <div>
+          </div>  }} />  
+
+          <Route exact path ="/availableCourses" render={() => {
+            return !this.state.currentUser ? <Redirect to="/login" /> :
+            <div>
                <ExistingCourseList courses={this.state.existingCourses} />
               </div> 
             }} /> 
-
-            </Switch>
-            
-        </div>
           
-        
-        </Router>
-    
-    );
+        </Switch> : null }
+      </Fragment>
+    )
   }
 }
 
-export default App;
+
+  
+
+export default withRouter(App)

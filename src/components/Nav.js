@@ -1,22 +1,45 @@
-import React, { Component } from 'react'
-import { NavLink } from 'react-router-dom'
+import React, { Fragment } from "react";
+import { NavLink, withRouter } from "react-router-dom";
+import { Menu } from "semantic-ui-react";
+
+const Nav = ({logged_in, getCurrentUser, location: { pathname } }) => {
 
 
-export default class Nav extends Component {
+  let logout = () => {
+    localStorage.clear()
+    getCurrentUser(null)
+  };
 
-  state = { 
+  return (
+    <Menu pointing secondary>
+      {logged_in ? (
+        <Fragment>
+          <Menu.Item
+            as={NavLink}
+            to="/mycourses"
+            name="My Courses"
+            active={pathname === "/mycourses"}
+          />
+          <Menu.Item
+            as={NavLink}
+            to="/availableCourses"
+            name="Other Courses"
+            active={pathname === "/availableCourses"}
+          />
+          <Menu.Menu position="right">
+            <Menu.Item to="/logout" name="Logout" onClick={logout} />
+          </Menu.Menu>
+        </Fragment>
+      ) : (
+        <Menu.Item
+          as={NavLink}
+          to="/login"
+          name="Login"
+          active={pathname === "/login"}
+        />
+      )}
+    </Menu>
+  );
+};
 
-   }
-   
-  render() {
-    return (
-      <nav className="nav">
-        
-        <NavLink to='/logout' ><button className="nav-button">logout</button></NavLink>
-        <NavLink to='/availableCourses' ><button className="nav-button">View Existing Courses</button></NavLink>
-        <NavLink to='/mycourses' ><button className="nav-button">My Courses</button></NavLink>
-         
-      </nav>
-    );
-  }
-}
+export default withRouter(Nav)

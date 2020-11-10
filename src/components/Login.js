@@ -1,85 +1,80 @@
-// import React, { Component } from 'react';
-
-// class Login extends Component {
-//   state = {  }
-//   render() {
-//     return (
-//       <div>
-//         <h1>Login page</h1> 
-//       </div>
-//     );
-//   }
-// }
-// export default Login;
-
 import React from 'react';
-import api from '../components/api';
+import { withRouter } from "react-router"
+import { Button, Form, Segment, Message } from "semantic-ui-react";
 
 class Login extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      error: false,
-      fields: {
-        username: '',
-        password: ''
-      }
-    };
-  }
-
-  handleChange = e => {
-    const newFields = { ...this.state.fields, [e.target.name]: e.target.value };
-    this.setState({ fields: newFields });
+  
+  state = {
+    username: "",
+    password: ""
+  };
+ 
+  handleChange = (e, { name, value }) => {
+    this.setState({ [name]: value });
   };
 
-  handleSubmit = e => {
-    e.preventDefault();
-    // debugger;
-    api.auth.login(this.state.fields.username, this.state.fields.password)
-    .then(json => {
-      if ( json.error ) {
-        this.setState({ error: true })
-      } else {
-        this.props.handleLogin(json);
-        this.props.history.push('/');
-      };
-    });
+  handleLoginSubmit = async () => {
+    const {username, password} = this.state 
+
+    const credentials = {username, password}
+
+    const reqPackage = {}
+      reqPackage.headers = {"Content-Type": "application/json"}
+      reqPackage.method = "POST"
+      reqPackage.body = JSON.stringify(credentials)
+
+    const res = await fetch(`http://localhost:3000/api/v1/login`, reqPackage)
+    const data = await res.json()
+    
+    if(data.authenticated) {
+      console.log(data)
+      
+      localStorage.setItem("token", data.token)
+
+      this.props.getCurrentUser(data.user)
+    } else {
+      console.log(data);
+    }
   };
 
- render() {
-    const { fields } = this.state;
+  render() {
     return (
-      <div>
-        {this.state.error ? <h3>Not a valid username/password</h3> : null}
-        <div className="ui form">
-          <form onSubmit={this.handleSubmit}>
-            <div className="ui field">
-              <label>Username</label>
-              <input
-                name="username"
-                placeholder="username"
-                value={fields.username}
-                onChange={this.handleChange}
-              />
-            </div>
-            <div className="ui field">
-              <label>Password</label>
-              <input
-                name="password"
-                type="password"
-                placeholder="password"
-                value={fields.password}
-                onChange={this.handleChange}
-              />
-            </div>
-            <button type="submit" className="ui basic green button">
-              Login
-            </button>
-          </form>
-        </div>
-      </div>
+      <Segment>
+        <Form
+          onSubmit={this.handleLoginSubmit}
+          size="mini"
+          key="mini"
+          loading={this.props.authenticatingUser}
+          error={this.props.failedLogin}
+          className="login-form-container"
+        >
+          <Message
+            error
+            header={this.props.failedLogin ? this.props.error : null}
+          />
+          <Form.Group widths="equal">
+            <Form.Input
+              label="username"
+              placeholder="username"
+              name="username"
+              onChange={this.handleChange}
+              value={this.state.username}
+            />
+            <Form.Input
+              type="password"
+              label="password"
+              placeholder="password"
+              name="password"
+              onChange={this.handleChange}
+              value={this.state.password}
+            />
+          </Form.Group>
+          <Button type="submit">Login</Button>
+        </Form>
+      </Segment>
     );
   }
 }
 
-export default Login;
+
+export default withRouter(Login);
