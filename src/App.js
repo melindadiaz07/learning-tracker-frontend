@@ -40,13 +40,21 @@ class App extends Component {
 
   
   componentDidMount() {
-  fetch("http://localhost:3000/users/13")
+  fetch("http://localhost:3000/users/16")
     .then(resp => resp.json())
     .then(userData => {
       this.setState({
         userCourses: userData.courses
       })
     })
+  fetch("http://localhost:3000/templates")
+  .then(res => res.json())
+  .then(templateData => {
+    this.setState({
+      existingCourses: templateData
+    })
+  })
+
   }
 
   selectCourse = (course) => {
@@ -100,10 +108,12 @@ class App extends Component {
             <TaskList selectedCourse={this.state.selectedCourse} tasks={this.state.taskList} checkOff={this.checkOff}/>
           </div>
         }} />
-        <Route exact path ="/existing" component={ExistingCourseList} />
+        <Route exact path ="/availableCourses" render={() => {
+            return <div>
+               <ExistingCourseList courses={this.state.existingCourses} />
+              </div> 
+            }} /> 
 
-
-            <h1>Application Page</h1>
             </Switch>
             
         </div>

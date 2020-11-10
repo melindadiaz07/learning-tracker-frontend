@@ -123,6 +123,27 @@
   display: inline-block;
 }
 
+.template-container{
+  margin: 70px;
+  width: 60%
+}
+
+.template-drop-button{
+  margin-right: 200px;
+}
+
+.import-course-button{
+  float:right;
+  left: 40%;
+}
+
+.template-tasks-ul{
+  margin-top: 50px;
+  margin-left: 125px;
+}
+
+
+
 /* progress bar */
 .CircularProgressbar {
   /*

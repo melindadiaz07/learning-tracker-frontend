@@ -13,7 +13,7 @@ export default class Nav extends Component {
       <nav className="nav">
         
         <NavLink to='/logout' ><button className="nav-button">logout</button></NavLink>
-        <NavLink to='/existing' ><button className="nav-button">View Existing Courses</button></NavLink>
+        <NavLink to='/availableCourses' ><button className="nav-button">View Existing Courses</button></NavLink>
         <NavLink to='/mycourses' ><button className="nav-button">My Courses</button></NavLink>
          
       </nav>
