@@ -35,7 +35,8 @@ export default class TaskList extends Component {
         <div className="task-container">
           {this.props.tasks.map(taskData => {
          //console.log(this.props)
-            return <Task task={taskData} checkOff={this.props.checkOff} key={taskData} updateProgress={this.updateProgress}    />
+         return <Task task={taskData} checkOff={this.props.checkOff} updateProgress={this.updateProgress} taskEdit={this.props.taskEdit}/>
+            //return <Task task={taskData} checkOff={this.props.checkOff} updateProgress={this.updateProgress}    />
             
        })}
        </div>
