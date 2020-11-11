@@ -16,7 +16,7 @@ export default class TaskList extends Component {
     let totalTasks = this.props.tasks.length
     let completed = 0
     this.props.tasks.forEach(task => {
-      if (task[0] == "true"){
+      if (task[0] === "true"){
         completed+=1
       }
     })
@@ -25,6 +25,7 @@ export default class TaskList extends Component {
 
 
   render() {
+    
     return (
       <div className="task-list-container">
         <div className="progress-container">
@@ -32,8 +33,10 @@ export default class TaskList extends Component {
         </div>
         <h2 className="tasks-subject-header">{this.props.selectedCourse.subject}</h2>
         <div className="task-container">
-       {this.props.tasks.map(taskData => {
-         return <Task task={taskData} checkOff={this.props.checkOff} updateProgress={this.updateProgress} taskEdit={this.props.taskEdit}/>
+          {this.props.tasks.map(taskData => {
+         //console.log(this.props)
+            return <Task task={taskData} checkOff={this.props.checkOff} key={taskData} updateProgress={this.updateProgress}    />
+            
        })}
        </div>
       </div>

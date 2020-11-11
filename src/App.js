@@ -6,6 +6,7 @@ import ExistingCourseList from './components/ExistingCourseList'
 import TaskList from './components/TaskList'
 import React, { Fragment } from 'react'
 import { Route, Switch, Redirect, withRouter } from 'react-router-dom'
+import update from 'react-addons-update';
 
 
 
@@ -61,29 +62,41 @@ class App extends React.Component {
   checkOff = (task) => {
   task[0] = "true"
    let updateIndex = this.state.taskList.findIndex((taskData) => taskData === task)
-  this.state.taskList[updateIndex] = task
+    //this.state.taskList[updateIndex] = task
+    // this.setState({
+    //   taskList[updateIndex]: task
+    // })
+
+
+    this.setState({ taskList: update(this.state.taskList[updateIndex], task)}) 
+
    let taskListId = this.state.selectedCourse.task_list.id
    let newList = [...this.state.taskList]
-  fetch(`http://localhost:3000/task_lists/${taskListId}`, {
+    fetch(`http://localhost:3000/task_lists/${taskListId}`, {
     method: 'PATCH',
     headers: {"Content-Type": "application/json"},
     body: JSON.stringify({tasks: newList})
     })
   }
   
-  taskEdit = (e, task, description, resource) => {
-    
+taskEdit = (e, task, description, resource) => {
+    e.preventDefault()
+
     let updateIndex = this.state.taskList.findIndex((taskData) => taskData === task)
-    task[1] = description
+      task[1] = description
     task[2] = resource
-  this.state.taskList[updateIndex] = task
-   let taskListId = this.state.selectedCourse.task_list.id
-   let newList = [...this.state.taskList]
-  fetch(`http://localhost:3000/task_lists/${taskListId}`, {
-    method: 'PATCH',
-    headers: {"Content-Type": "application/json"},
-    body: JSON.stringify({tasks: newList})
+  //this.state.taskList[updateIndex] = task
+  
+  
+    this.setState({ taskList: update(this.state.taskList[updateIndex], task)}) 
+    let taskListId = this.state.selectedCourse.task_list.id
+    let newList = [...this.state.taskList]
+    fetch(`http://localhost:3000/task_lists/${taskListId}`, {
+      method: 'PATCH',
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ tasks: newList })
     })
+    }
 
   addCourse = (subject) => {
     fetch("http://localhost:3000/courses", {

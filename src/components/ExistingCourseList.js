@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Course from './Course'
+//import Course from './Course'
 import ExistingCourse from './ExistingCourse'
 
 // will get prop of courses and map it to course component

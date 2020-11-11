@@ -11,7 +11,7 @@ export default class Course extends Component {
     let totalTasks = this.props.course.task_list.tasks.length
     let completed = 0
     this.props.course.task_list.tasks.forEach(task => {
-      if (task[0] == "true"){
+      if (task[0] === "true"){
         completed += 1
       }
     })

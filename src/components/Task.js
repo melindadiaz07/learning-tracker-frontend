@@ -62,8 +62,8 @@ import EditTask from './EditTask'
               <div className="task-item">
                 
                 
-          <input className="checkbox" type="checkbox" value="task" onClick={() => {
-            this.props.checkOff(this.props.task)
+          <input className="checkbox" type="checkbox"  value="task" onClick={() => {
+                  this.props.checkOff(this. props.task)
             this.props.updateProgress()
                 }} />
                 
@@ -80,8 +80,9 @@ import EditTask from './EditTask'
                         <input onChange={this.handleChange} name="description" value={this.state.description} /> 
                         <label> resource </label> 
                         <input onChange={this.handleChange} name="resource" value={this.state.resource} /> 
-                        <button onClick={()=> this.props.taskEdit( this.state.uneditedTask, this.state.description, this.state.resource)}> Save Changes </button>
-                      
+                        <button onClick={(e) => {
+                          this.props.taskEdit(e,this.state.uneditedTask, this.state.description,this.state.resource)
+                        }}> Save Changes </button>
                       </form>
                       : null
                     }
