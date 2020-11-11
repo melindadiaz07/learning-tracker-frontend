@@ -19,27 +19,37 @@ class App extends React.Component {
     selectedCourse: "",
     currentUser: null,
     loading: true,
+    taskListId: "",
+    userId: ''
   }
 
 
 
-  getCurrentUser = currentUser => this.setState({currentUser})
+  getCurrentUser = (currentUser, courses) => {
+    this.setState({
+      currentUser: currentUser,
+      userCourses: courses
+    })
+  }
 
-  async componentDidMount(){
 
+  componentDidMount(){
     if(localStorage.getItem("token")){
       const headers = {headers: {"Authentication": `Bearer ${localStorage.getItem("token")}`}}
-      const res = await fetch('http://localhost:3000/api/v1/mycourses', headers)
-      const currentUser = await res.json()
-      this.setState({
-        currentUser, 
-        loading: false,
-        userCourses:currentUser.courses
+      fetch('http://localhost:3000/api/v1/mycourses', headers)
+      .then(res => res.json())
+      .then(userData => {
+        this.setState({
+          currentUser: userData,
+          loading: false,
+          userCourses: userData.courses
+        })
+       
       })
-      
-    }else {
-      this.setState({loading: false})
+      } else {
+        this.setState({loading: false})
     }
+
 
     fetch("http://localhost:3000/templates")
     .then(res => res.json())
@@ -48,42 +58,34 @@ class App extends React.Component {
         existingCourses: templateData
       })
     })
-   
   }
+
 
   selectCourse = (course) => {
     this.setState({
       selectedCourse: course,
-      taskList: course.task_list.tasks
+      taskList: course.task_list.tasks,
+      taskListId: course.task_list.id
+    })
+    
+  }
+
+
+  checkOff = (task) => {
+   let updateIndex = this.state.taskList.findIndex((taskData) => taskData === task)
+   task[0] = "true"
+  this.state.taskList[updateIndex] = task
+
+   let taskListId = this.state.selectedCourse.task_list.id
+   let newList = [...this.state.taskList]
+  fetch(`http://localhost:3000/task_lists/${taskListId}`, {
+    method: 'PATCH',
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({tasks: newList})
     })
   }
 
-  checkOff = (task) => {
-  task[0] = "true"
-   let updateIndex = this.state.taskList.findIndex((taskData) => taskData === task)
-  this.state.taskList[updateIndex] = task
-   let taskListId = this.state.selectedCourse.task_list.id
-   let newList = [...this.state.taskList]
-  fetch(`http://localhost:3000/task_lists/${taskListId}`, {
-    method: 'PATCH',
-    headers: {"Content-Type": "application/json"},
-    body: JSON.stringify({tasks: newList})
-    })
-  }
-  
-  taskEdit = (e, task, description, resource) => {
-    
-    let updateIndex = this.state.taskList.findIndex((taskData) => taskData === task)
-    task[1] = description
-    task[2] = resource
-  this.state.taskList[updateIndex] = task
-   let taskListId = this.state.selectedCourse.task_list.id
-   let newList = [...this.state.taskList]
-  fetch(`http://localhost:3000/task_lists/${taskListId}`, {
-    method: 'PATCH',
-    headers: {"Content-Type": "application/json"},
-    body: JSON.stringify({tasks: newList})
-    })
+ 
 
   addCourse = (subject) => {
     fetch("http://localhost:3000/courses", {
@@ -91,7 +93,7 @@ class App extends React.Component {
       headers:  {"Content-Type": "application/json"},
       body: JSON.stringify({subject: subject,
                             user_id: this.state.currentUser.id,
-                            tasks: ['false', "Add your first task!", "A resource link can go here..."]
+                            tasks: [['false', "Add your first task!", "A resource link can go here..."]]
                           })
     })
     .then(res => res.json())
@@ -103,8 +105,8 @@ class App extends React.Component {
     })
   }
 
-  importCourse = (course) => {
 
+  importCourse = (course) => {
    if (!this.state.userCourses.find(userCourse => userCourse === course)){
     fetch("http://localhost:3000/courses", {
       method: "POST",
@@ -120,21 +122,30 @@ class App extends React.Component {
         userCourses: [...this.state.userCourses, courseData]
       })
     })
+    }
   }
+
+
+  handleLogout = () => {
+    localStorage.clear()
+    this.setState({
+      currentUser: null
+    })
   }
 
   
   render(){
+
     return (
       <Fragment>
 
-        <Nav logged_in={ !!this.state.currentUser} getCurrentUser={this.getCurrentUser} />
+        <Nav logged_in={ !!this.state.currentUser} getCurrentUser={this.getCurrentUser}  logOut={this.handleLogout}/>
         { !this.state.loading ? <Switch>
           <Route exact path="/" render={() => <Redirect to="/login" />} />
           
           <Route exact path="/mycourses" render={() => {
            return !this.state.currentUser ? <Redirect to="/login" /> : <UserCourseList courses={this.state.userCourses} 
-           selectCourse={this.selectCourse} addCourse={this.addCourse} />
+           selectCourse={this.selectCourse} addCourse={this.addCourse} userId={this.state.userId}/>
          }} />
          
           <Route exact path="/login" render={()=> {
@@ -144,7 +155,7 @@ class App extends React.Component {
           <Route exact path="/taskList" render={() => {
           return !this.state.currentUser ? <Redirect to="/login" /> :
           <div>
-              <TaskList selectedCourse={this.state.selectedCourse} tasks={this.state.taskList} checkOff={this.checkOff} taskEdit={this.taskEdit}/>
+              <TaskList selectedCourse={this.state.selectedCourse} tasks={this.state.taskList} checkOff={this.checkOff} taskEdit={this.taskEdit} taskListId={this.state.taskListId} />
           </div>  }} />  
 
           <Route exact path ="/availableCourses" render={() => {
