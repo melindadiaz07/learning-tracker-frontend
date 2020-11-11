@@ -3,12 +3,25 @@ import Course from './Course'
 import AddCourse from './AddCourse'
 
 
-// get a prop of a user and render their specific courses 
-// ? function to calculate progress? comes from sibling tasklist
 
 
 export default class UserCourseList extends Component {
-  state = {  }
+
+  state = { 
+    courses: [],
+   }
+
+  componentDidMount(){
+    console.log('courses mounted')
+    fetch(`http://localhost:3000/users/${this.props.userId}`)
+    .then(res => res.json())
+    .then(userData => {
+      this.setState({
+        courses: userData.courses
+      })
+    })
+  }
+
   render() {
     return (
        <div className="course-list-container">

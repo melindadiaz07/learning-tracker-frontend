@@ -58,12 +58,17 @@
 
 .resource-button {
   margin-left: 12px;
+  float: right;
+}
+.edit-button{
+  float: right;
 }
 
 .task-item {
   padding: 15px;
   background-color: rgb(146, 143, 187);
-  margin: 10px;
+  margin: 20px;
+  width: 40%;
   
 }
 
@@ -106,12 +111,18 @@
 
 .task-list-container{
   margin-left: 5%;
+  margin-bottom: 100px;
 }
 
 .tasks-subject-header{
   display: inline-block;
   margin: 70px;
 
+}
+
+.add-task-button{
+  margin-top: 30px;
+  margin-bottom: 10px;
 }
 
 .progress-container{

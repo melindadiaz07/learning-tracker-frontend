@@ -54,10 +54,13 @@ class Login extends React.Component {
     
     if(data.authenticated) {
       
+    localStorage.setItem("token", data.token)
+       
+    const res = await fetch(`http://localhost:3000/users/${data.user.id}`)
+    const fullUserData = await res.json()
+    
       
-      localStorage.setItem("token", data.token)
-
-      this.props.getCurrentUser(data.user)
+      this.props.getCurrentUser(data.user, fullUserData.courses)
     } else {
       console.log(data);
     }

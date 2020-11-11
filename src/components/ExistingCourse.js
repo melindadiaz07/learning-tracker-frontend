@@ -12,11 +12,11 @@ import React, { Component } from 'react';
      })
    }
 
-   updateButton = () => {
+  //  updateButton = () => {
      
-   }
+  //  }
+  
    
-
   render() {
     return (
       <div>

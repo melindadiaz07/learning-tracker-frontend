@@ -2,8 +2,7 @@ import React, { Fragment } from "react";
 import { NavLink, withRouter } from "react-router-dom";
 import { Menu } from "semantic-ui-react";
 
-const Nav = ({logged_in, getCurrentUser, location: { pathname } }) => {
-
+const Nav = ({logged_in, getCurrentUser, logOut, location: { pathname } }) => {
 
   let logout = () => {
     localStorage.clear()
@@ -27,7 +26,10 @@ const Nav = ({logged_in, getCurrentUser, location: { pathname } }) => {
             active={pathname === "/availableCourses"}
           />
           <Menu.Menu position="right">
-            <Menu.Item to="/logout" name="Logout" onClick={logout} />
+            <Menu.Item to="/logout" name="Logout" onClick={() => {
+              logOut()
+              logout()}
+              } />
           </Menu.Menu>
         </Fragment>
       ) : (
