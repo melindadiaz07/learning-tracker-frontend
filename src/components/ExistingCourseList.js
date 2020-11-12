@@ -6,13 +6,14 @@ import ExistingCourse from './ExistingCourse'
 
  class ExistingCourseList extends Component {
   state = {  }
-  render() {
+   render() {
+    console.log(this.props)
     return (
       <div>
         <h1> Courses </h1>
         {
           this.props.courses.map(course => {
-            return <ExistingCourse courseData={course} importCourse={this.props.importCourse}/>
+            return <ExistingCourse courseData={course} importCourse={this.props.importCourse} />
           })
         }
 

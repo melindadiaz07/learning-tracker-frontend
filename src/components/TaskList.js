@@ -1,15 +1,17 @@
 import React, { Component } from 'react';
 import Task from './Task'
 import { CircularProgressbar } from 'react-circular-progressbar';
+import { Route, Switch, Redirect, withRouter } from 'react-router-dom'
 
 
-export default class TaskList extends Component {
+ class TaskList extends Component {
   state = { 
     progress: "",
     taskList: this.props.tasks,
     toggleAddTask: false,
     resource: "",
     description: "",
+    TaskList: false
    }
 
  
@@ -18,7 +20,6 @@ export default class TaskList extends Component {
     this.setState({progress: this.findProgress()})
   }
   
-
   findProgress(){
     let totalTasks = this.props.tasks.length
     let completed = 0
@@ -36,6 +37,11 @@ export default class TaskList extends Component {
     })
   }
 
+   handleTaskList = () => {
+     this.setState({
+       TaskList: !this.State.TaskList
+     })
+   }
   handleChange = (event) => {
     this.setState({
       [event.target.name]: event.target.value
@@ -64,7 +70,8 @@ export default class TaskList extends Component {
 
   editTask = (event, oldTask, description, resource) => {
     event.preventDefault()
-    console.log(description, resource)
+    //console.log(description, resource)
+    
 
     let newTask = ["false", description, resource]
     let updateIndex = this.state.taskList.findIndex((taskData) => taskData === oldTask)
@@ -83,10 +90,18 @@ export default class TaskList extends Component {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ tasks: newList })
     })
+    
   }
 
+  // redirect = () => {
+  //   console.log("alex")
+  //   return <Redirect from="/taskList" to='/' />
+  
+  // }
 
-  render() {
+
+   render() {
+    
     
     return (
       <div className="task-list-container">
@@ -99,7 +114,8 @@ export default class TaskList extends Component {
          return <Task task={taskData} checkOff={this.props.checkOff} updateProgress={this.updateProgress} handleEditSubmit={this.editTask} />
        })}
        </div>
-       <button onClick={this.toggleAddTask} className="add-task-button">Add a Task</button>
+        <button onClick={this.toggleAddTask} className="add-task-button">Add a Task</button>
+        
        
        {
          this.state.toggleAddTask === true ?
@@ -112,10 +128,27 @@ export default class TaskList extends Component {
            <input name="resource" onChange={this.handleChange} value={this.state.resource} />
            <br></br><br></br>
 
-           <button onClick={this.addTask} >Add task!</button>
+              <button onClick={this.addTask} >Add task!</button>
+              
          </form>) : null
-          }
+          
+        }
+        <div className ="delete-button-div">
+
+       
+      </div>
+        <h4><button onClick={() => {
+          
+          //this.redirect()
+          this.props.handleDelete(this.props.selectedCourse.id)
+          
+        }
+        } className="delete-course-button" >Delete a Course</button></h4> 
       </div>
     );
   }
 }
+export default withRouter(TaskList)
+
+ 
+

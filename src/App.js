@@ -6,7 +6,8 @@ import ExistingCourseList from './components/ExistingCourseList'
 import TaskList from './components/TaskList'
 import React, { Fragment } from 'react'
 import { Route, Switch, Redirect, withRouter } from 'react-router-dom'
-import update from 'react-addons-update';
+// import update from 'react-addons-update';
+
 
 
 
@@ -21,7 +22,8 @@ class App extends React.Component {
     currentUser: null,
     loading: true,
     taskListId: "",
-    userId: ''
+    userId: '',
+    redirect: false
   }
 
 
@@ -63,6 +65,7 @@ class App extends React.Component {
 
 
   selectCourse = (course) => {
+    
     this.setState({
       selectedCourse: course,
       taskList: course.task_list.tasks,
@@ -71,24 +74,34 @@ class App extends React.Component {
     
   }
 
+  
+
 
   checkOff = (task) => {
+    
+     
    let updateIndex = this.state.taskList.findIndex((taskData) => taskData === task)
-   task[0] = "true"
-  this.state.taskList[updateIndex] = task
+    task[0] = "true"
+   
+    this.state.taskList[updateIndex] = task
+    //console.log(TaskList)
 
    let taskListId = this.state.selectedCourse.task_list.id
    let newList = [...this.state.taskList]
     fetch(`http://localhost:3000/task_lists/${taskListId}`, {
     method: 'PATCH',
     headers: {"Content-Type": "application/json"},
-    body: JSON.stringify({tasks: newList})
-    })
+      body: JSON.stringify({ tasks: newList })
+    })  
+    console.log(this.state.selectedCourse.id) 
+
   }
+  
 
  
 
   addCourse = (subject) => {
+   
     fetch("http://localhost:3000/courses", {
       method: "POST",
       headers:  {"Content-Type": "application/json"},
@@ -134,6 +147,47 @@ class App extends React.Component {
     })
   }
 
+
+
+  // editTask = (event, oldTask, description, resource) => {
+  //   event.preventDefault()
+  //   console.log(description, resource)
+
+  //   let newTask = ["false", description, resource]
+  //   let updateIndex = this.state.taskList.findIndex((taskData) => taskData === oldTask)
+  //   oldTask[1] = description
+  //   oldTask[2] = resource
+  //   this.state.taskList[updateIndex] = newTask
+  
+  //   this.setState({ 
+  //     taskList: [...this.state.taskList, newTask]
+  //   })
+
+  //   let taskListId = this.props.selectedCourse.task_list.id
+  //   let newList = [...this.state.taskList]
+  //   fetch(`http://localhost:3000/task_lists/${taskListId}`, {
+  //     method: 'PATCH',
+  //     headers: { "Content-Type": "application/json" },
+  //     body: JSON.stringify({ tasks: newList })
+  //   })
+    
+  // }
+
+  handleDelete = (id, ) => {
+
+    console.log()
+
+    fetch(`http://localhost:3000/courses/${id}`, {
+    method: "DELETE"
+    })
+      //.then(resp => resp.json())
+    this.setState({
+      redirect: true
+    })
+     
+  }
+  
+
   
   render(){
 
@@ -154,18 +208,22 @@ class App extends React.Component {
          }} />
 
           <Route exact path="/taskList" render={() => {
-          return !this.state.currentUser ? <Redirect to="/login" /> :
-          <div>
-              <TaskList selectedCourse={this.state.selectedCourse} tasks={this.state.taskList} checkOff={this.checkOff} taskEdit={this.taskEdit} taskListId={this.state.taskListId} />
-          </div>  }} />  
-
+          return !this.state.currentUser ?  <Redirect to="/login" /> :
+            <div>
+              
+              {  this.state.redirect === true ?  <Redirect to='/mycourses' /> :
+              <TaskList selectedCourse={this.state.selectedCourse} tasks={this.state.taskList} checkOff={this.checkOff}
+                taskEdit={this.taskEdit} taskListId={this.state.taskListId} handleDelete={this.handleDelete} />
+          }
+               </div>  }} />  
+          
           <Route exact path ="/availableCourses" render={() => {
             return !this.state.currentUser ? <Redirect to="/login" /> :
             <div>
-               <ExistingCourseList courses={this.state.existingCourses} importCourse={this.importCourse}/>
+               <ExistingCourseList courses={this.state.existingCourses} importCourse={this.importCourse} />
               </div> 
             }} /> 
-          
+                  
         </Switch> : null }
       </Fragment>
     )

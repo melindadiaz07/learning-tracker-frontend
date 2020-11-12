@@ -3,7 +3,8 @@ import React, { Component } from 'react';
 export default class AddCourse extends Component {
   state = { 
     clicked: false,
-    input: ""
+    input: "",
+   
    }
 
    toggleForm = () => {
@@ -11,6 +12,8 @@ export default class AddCourse extends Component {
       clicked: !this.state.clicked
     })
    }
+  
+  
 
    handleInput = (event) => {
      console.log(event.target.value)
@@ -24,11 +27,17 @@ export default class AddCourse extends Component {
 
   render() {
     return (
+      
 
       <div>
+        
+        
+      
         {this.state.clicked === false ? 
+          
          ( <div>
-         <h4><button onClick={this.toggleForm} className="add-course-button" >Create a Course</button></h4> 
+            <h4><button onClick={this.toggleForm} className="add-course-button" >Create a Course</button></h4> 
+           
         </div>)
         :
         (<div>
@@ -36,7 +45,9 @@ export default class AddCourse extends Component {
             <label>Subject: </label>
             <input onChange={this.handleInput} type="text" name="subject" value={this.state.input} />
             <button onClick={() => this.props.addCourse(this.state.input)} >Add Course</button>
-          </form>
+            </form>
+            
+            
         </div>)
         }
       </div>
