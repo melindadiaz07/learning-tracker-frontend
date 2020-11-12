@@ -8,7 +8,7 @@ import ExistingCourse from './ExistingCourse'
   state = {  }
   render() {
     return (
-      <div>
+      <div className="course-list-container">
         <h1> Courses </h1>
         {
           this.props.courses.map(course => {

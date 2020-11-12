@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { NavLink } from 'react-router-dom'
-import { CircularProgressbar } from 'react-circular-progressbar';
+import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 
 
 export default class Course extends Component {
@@ -24,7 +24,9 @@ export default class Course extends Component {
     return (
       <div className='course-block'>
         <div className="course-list-progress">
-        <h3 className="progress-header"><CircularProgressbar value={this.findProgress()} text={`${this.findProgress()}%`} /></h3>
+        <h3 className="progress-header"><CircularProgressbar value={this.findProgress()} text={`${this.findProgress()}%`} styles={buildStyles({
+          textSize: "25px", textColor: "#ffd11a",
+        })}/></h3>
         </div>
         <h3 className="subject-header">{this.props.course.subject}</h3> 
         <NavLink to='/taskList' >

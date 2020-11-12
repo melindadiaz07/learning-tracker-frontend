@@ -49,7 +49,7 @@ import EditTask from './EditTask'
             this.props.checkOff(this.props.task)
             this.props.updateProgress() }} /> 
 
-          <label>{description}<button className="resource-button" onClick={this.showResources}>v</button></label> 
+          <label><div className="task-description" >{description}</div><button className="resource-button" onClick={this.showResources}>v</button></label> 
                 
           {this.state.resourceClicked === true ?
                 <div>

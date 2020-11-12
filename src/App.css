@@ -1,5 +1,12 @@
+body{
+  background-color: rgb(39, 39, 38) !important
+}
 
-
+#root{
+  /* background-image: url(./texturedbackground.jpg); */
+ background-color: rgb(39, 39, 38) ;
+ color: rgb(53, 138, 138);
+}
 
 .App {
   text-align: center;
@@ -53,49 +60,156 @@
   margin-top: 10px;
   margin-right: 10px;
  float: right;
+ color: white;
 }
 
 
 .resource-button {
   margin-left: 12px;
+  /* padding-top: 5px; */
   float: right;
+  font-size: 15px;
+  color: rgb(179, 161, 80);
+  border-style: hidden;
+  border-radius: 15%;
 }
+
+.resources-tab{
+  padding-top: 25px;
+  font-size: 1rem;
+  letter-spacing: 1.5px;
+}
+
+.resources-tab a {
+  padding-left: 80px;
+}
+
 .edit-button{
   float: right;
+  margin-top: -30px;
+  font-size: 1rem;
+  padding: 6px 8px;
+}
+
+.task-description{
+  display: inherit;
+  font-size: 1.2rem;
 }
 
 .task-item {
   padding: 15px;
-  background-color: rgb(146, 143, 187);
   margin: 20px;
-  width: 40%;
-  
+  width: 70%;
+  background-color: rgb(170, 170, 169);
+  border-radius: 5px;
+  font-size: 1.5rem;
+  color:  rgb(53, 138, 138);
+  letter-spacing: 3px;
 }
+
+.task-container{
+  margin-left: 15%;
+}
+
+.add-task-form{
+  margin-left: 20%;
+  width: 70%;
+  margin-left: 5%;
+}
+
+.actual-form{
+  margin-left: 90%;
+}
+
 
 
 .checkbox{
-  margin-right: 15px;
+  margin-right: 150px;
 }
 
+
+
+input[type='checkbox'] {
+  width:20px;
+  height:20px;
+  border-radius:5px;
+  border:2px solid #555;
+}
+
+
 .course-block{
-  margin: 20px 30px;
-  background-color: rgb(236, 240, 200);
+  margin: 60px 30px;
+  background-color: rgb(167, 167, 163);
   /* width: 60%; */
+  border-radius: 10px;
+  height: 65px;
+}
+
+.template-block{
+  margin: 20px 30px;
+  background-color: rgb(167, 167, 163);
+  /* width: 60%; */
+  border-radius: 10px;
+  padding: 0px 20px;
+  height: flex;
 }
 
 .progress-header{
   display:inline-block;
   margin-left: 20px;
+  /* font-size: 100px; */
 }
 
 .subject-header{
   display: inline-block;
-  margin-left: 30%;
+  margin-left: 25%;
+  position: relative;
+  top: -32px;
+  font-size: 25px;
+  letter-spacing: 5px;
 }
+
+.template-subject{
+  display: inline-block;
+  position: relative;
+  top: -5px;
+  font-size: 25px;
+  letter-spacing: 5px;
+  margin-left: 100px;
+}
+
+
+
 .course-list-button{
   float: right;
   position:relative;
   margin: 15px;
+}
+
+.add-course-container{
+  padding-top: 50px;
+  padding-bottom: 50px;
+  margin-bottom: 70px;
+}
+
+.add-course-form{
+  
+  margin-left: 85%;
+  position:relative;
+}
+
+.add-course-button{
+  /* float:right;
+  position: relative; */
+  margin-right: 35px;
+  margin-bottom: 30px;
+  border: 1px solid rgb(199, 198, 198);
+  margin-left: 85%;
+  position:relative;
+}
+
+.add-submit-button{
+  border: 1px solid rgb(199, 198, 198)
 }
 
 .course-list-container{
@@ -103,11 +217,6 @@
   width: 75%;
 }
 
-.add-course-button{
-  float:right;
-  position: relative;
-  margin-right: 35px;
-}
 
 .task-list-container{
   margin-left: 5%;
@@ -117,12 +226,21 @@
 .tasks-subject-header{
   display: inline-block;
   margin: 70px;
+  font-size: 40px;
 
 }
 
 .add-task-button{
   margin-top: 30px;
   margin-bottom: 10px;
+  margin-left: 90%;
+  position:relative;
+  border: 1px solid rgb(71, 71, 71);
+}
+
+
+.submit-task-button{
+  border: 1px solid rgb(199, 198, 198)
 }
 
 .progress-container{
@@ -132,25 +250,45 @@
 .course-list-progress{
   width: 10%;
   display: inline-block;
+  margin-top: -30px;
+  margin-left: -10px;
 }
 
 .template-container{
   margin: 70px;
-  width: 60%
+  width: 80%
 }
 
 .template-drop-button{
-  margin-right: 200px;
+  position: relative;
+  top: -10px;
+  margin-right: 40px;
+}
+
+.template-description{
+  font-size: 1.2rem;
+  font-style: italic;
 }
 
 .import-course-button{
   float:right;
-  left: 40%;
+  position: relative;
+  top: 20px;
+  border-color: gb(62, 121, 126)
+}
+
+.selected-import-button{
+  float:right;
+  position: relative;
+  top: 20px;
+  background-color: rgb(62, 121, 126);
+  border-color: gb(62, 121, 126);
 }
 
 .template-tasks-ul{
   margin-top: 50px;
   margin-left: 125px;
+  list-style-type: " ★     ";
 }
 
 .login-form-container{
@@ -165,17 +303,19 @@
    * This fixes an issue where the CircularProgressbar svg has
    * 0 width inside a "display: flex" container, and thus not visible.
    */
-  width: 100%;
+  width: 110%;
   /*
    * This fixes a centering issue with CircularProgressbarWithChildren:
    * https://github.com/kevinsqi/react-circular-progressbar/issues/94
    */
   vertical-align: middle;
   float: left;
+  margin-top: 20%;
 }
 
 .CircularProgressbar .CircularProgressbar-path {
-  stroke: #3e98c7;
+  stroke: #338083;
+  
   stroke-linecap: round;
   transition: stroke-dashoffset 0.5s ease 0s;
 }
@@ -187,7 +327,7 @@
 }
 
 .CircularProgressbar .CircularProgressbar-text {
-  fill: #3e98c7;
+  fill: #338083;
   font-size: 20px;
   dominant-baseline: middle;
   text-anchor: middle;
@@ -223,4 +363,15 @@
 }
 
 
+.item {
+  color: white !important;
+  font-size: 1.2rem;
+}
 
+button {
+  background-color: rgb(36, 36, 36);
+  color: rgb(218, 193, 114);
+  border: none;
+  border-radius: 5px;
+  padding: 5px;
+}

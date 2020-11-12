@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Task from './Task'
-import { CircularProgressbar } from 'react-circular-progressbar';
+import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 
 
 export default class TaskList extends Component {
@@ -30,10 +30,14 @@ export default class TaskList extends Component {
        return parseInt(Number((completed/totalTasks)*100))
   }
 
-  toggleAddTask = () => {
+  toggleAddTask = (event) => {
     this.setState({
       toggleAddTask: !this.state.toggleAddTask
     })
+    event.target.innerHTML === "Cancel" ?
+    event.target.innerHTML="Add a Task" :
+    event.target.innerHTML="Cancel" 
+
   }
 
   handleChange = (event) => {
@@ -91,7 +95,9 @@ export default class TaskList extends Component {
     return (
       <div className="task-list-container">
         <div className="progress-container">
-        <h3 className="tasklist-progress"><CircularProgressbar value={this.findProgress()} text={`${this.findProgress()}%`} /></h3>
+        <h3 className="tasklist-progress"><CircularProgressbar value={this.findProgress()} text={`${this.findProgress()}%`} styles={buildStyles({
+          textSize: "20px", textColor: "#f2db6e",
+        })}/></h3>
         </div>
         <h2 className="tasks-subject-header">{this.props.selectedCourse.subject}</h2>
         <div className="task-container">
@@ -99,11 +105,11 @@ export default class TaskList extends Component {
          return <Task task={taskData} checkOff={this.props.checkOff} updateProgress={this.updateProgress} handleEditSubmit={this.editTask} />
        })}
        </div>
-       <button onClick={this.toggleAddTask} className="add-task-button">Add a Task</button>
-       
+       <div className="add-task-form">
+       <button onClick={this.toggleAddTask} className="add-task-button"> Add a Task </button>
        {
          this.state.toggleAddTask === true ?
-         (<form  >
+         (<form  className="actual-form">
            <label>Description: </label>
            <input name="description" onChange={this.handleChange} value={this.state.description}/>
            <br></br><br></br>
@@ -112,9 +118,9 @@ export default class TaskList extends Component {
            <input name="resource" onChange={this.handleChange} value={this.state.resource} />
            <br></br><br></br>
 
-           <button onClick={this.addTask} >Add task!</button>
+           <button className="submit-task-button" onClick={this.addTask} >Add task!</button>
          </form>) : null
-          }
+          }</div>
       </div>
     );
   }
