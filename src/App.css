@@ -1,15 +1,24 @@
-body{
-  background-color: rgb(39, 39, 38) !important
+body {
+  background-color:black !important;
+  background-size: cover;
+  background-image: url(./blacktexture.jpg) !important;
 }
 
 #root{
   /* background-image: url(./texturedbackground.jpg); */
- background-color: rgb(39, 39, 38) ;
+ /* background-color: rgb(39, 39, 38) ; */
  color: rgb(53, 138, 138);
+ background-image: url(./blacktexture.jpg); 
+ background-size: cover;
+
 }
 
 .App {
   text-align: center;
+}
+
+.active.item {
+  border-color: rgb(170, 170, 169) !important
 }
 
 
@@ -61,6 +70,13 @@ body{
   margin-right: 10px;
  float: right;
  color: white;
+}
+
+.ui.segment{
+  margin-top: 100px !important;
+  width: 90% !important;
+  margin-left: 3% !important;
+  background: rgb(128, 128, 126) !important
 }
 
 
@@ -215,6 +231,7 @@ input[type='checkbox'] {
 .course-list-container{
   margin-left: 5%;
   width: 75%;
+  padding-bottom: 230px;
 }
 
 

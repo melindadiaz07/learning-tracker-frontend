@@ -22,7 +22,7 @@ const Nav = ({logged_in, getCurrentUser, logOut, location: { pathname } }) => {
           <Menu.Item
             as={NavLink}
             to="/availableCourses"
-            name="Available Courses"
+            name="Shared Courses"
             active={pathname === "/availableCourses"}
           />
           <Menu.Menu position="right">
